@@ -8,3 +8,5 @@ node_modules/
 notes/
 issues.md
 protoype/
+test_file.py
+.pytest_cache/
