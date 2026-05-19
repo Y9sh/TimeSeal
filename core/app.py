@@ -86,10 +86,15 @@ class MainWindow(QMainWindow):
         editrs, act = self.actions_decisions(self.mode)
         print("Editor:",editrs)
         if editrs == 'MAIN':
-            editrs = self.editor
-            text = editrs.toPlainText()
-            print("HERE SAVING HAPPENS:",editrs,act)
-            self.file_manager.where_to_save(text,act,self.current_path)
+            session = self.check_session()
+            print("SAVE SESSION:",session )
+            if session == 'TODAY_SESSION':
+                editrs = self.editor
+                text = editrs.toPlainText()
+                print("HERE SAVING HAPPENS:",editrs,act)
+                self.file_manager.where_to_save(text,act,self.current_path)
+            else:
+                print("No save needed")
         else:
             print("MOde in saveing ",self.mode)
             editrs = self.temp_editor
@@ -97,7 +102,7 @@ class MainWindow(QMainWindow):
             content = editrs.toPlainText()
             body = content.replace(editrs.reflection_body(self.file_manager.current_file_date),"")
             if body:
-                self.file_manager.where_to_save(body,act,self.current_path)
+                self.file_manager.where_to_save(text=body,action=act,current_pth=self.current_path)
                 editrs.clear()
                 editrs.close()
                 self.restream_file()
@@ -120,9 +125,12 @@ class MainWindow(QMainWindow):
             if session == 'OLD_SESSION':
                 self.editor.read_only("YES")
             else:
+                '''
                 self.mode = 'NORMAL'
                 self.editor.read_only("NO")
                 self.editor.moveCursor(QTextCursor.MoveOperation.End)
+                '''
+                self.load_today_session()
         else: 
             print("User not choose any files")
             if self.mode != 'NORMAL':

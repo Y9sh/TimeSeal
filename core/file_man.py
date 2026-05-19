@@ -2,7 +2,7 @@ from PySide6.QtCore import QDate
 from pathlib import Path
 import datefinder
 import os
-from typing import Optional
+import tempfile
 
 class FileManager():
     
@@ -43,9 +43,29 @@ class FileManager():
         
     def where_to_save(self,text,action,current_pth):
         path = self.save_decisions(current_pth,self.today_sessions)
-        self.write_file(path,text,action)
+        print("curr path:",path)
+        if path == self.today_sessions:
+            self.write_file(path,text,action)
+        else:
+            self.safety_old_write(path,text)
+        
 
-                            
+    
+    def safety_old_write(self,file_path,text):
+        dir_name = os.path.dirname(file_path)
+    
+        content = self.read_file(file_path)
+        full_content = f"{content}\n# -- Reflection: {self.current_file_date} --{text}"
+        
+        with tempfile.NamedTemporaryFile(dir=dir_name,mode='w+t',delete=False) as temp:
+            print("Using safety")
+            temp.write(full_content)
+            temp.flush()
+            f_temp = temp.name
+        # swap old file content with temp file
+        os.replace(f_temp,file_path)
+            
+        
     def read_file(self,path):
         with open(path, 'r') as rw_file:
             return rw_file.read()
