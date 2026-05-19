@@ -10,8 +10,21 @@ class FileManager():
         super().__init__() 
         self.today_sessions = Path(f"./notes/{QDate.currentDate().toString("yyyy-MM-dd")}.md")
         self.current_file_date = QDate.currentDate().toString("yyyy-MM-dd")
-        
     
+    def check_git(self):
+        if not os.path.exists("notes/.git"):
+            # logic to git
+            print("Here create 1st snapshot for the notes")
+        else:
+            print("Already existed")
+ 
+    def check_dir_notes(self):
+        if not os.path.exists("notes/"):
+            os.mkdir("notes/")
+            print("Directory create")
+        else:
+            print("Directory existed")
+            
     def check_existed(self,tdy_session):
         if not os.path.exists(tdy_session):
             return 'NO'

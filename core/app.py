@@ -16,12 +16,13 @@ class MainWindow(QMainWindow):
     # main controller
     def __init__(self):
         super().__init__()
-        
-        self.setWindowTitle("Time Notes")
+    
+        self.setWindowTitle("Time Seal")
         self.resize(800,600)
         self.file_manager = FileManager()
         self.editor = TextEditor()
         
+        self.file_manager.check_dir_notes()
         self.default_state()
         self.load_today_session()
         self.setCentralWidget(self.editor)
@@ -106,7 +107,6 @@ class MainWindow(QMainWindow):
     def read_only_file(self):
     
         self.close_and_clear_temp_editor()
-        
         path,_= QFileDialog.getOpenFileName(self,"Open File",dir='./notes')
         if path:
             today_session = self.file_manager.today_sessions
@@ -125,8 +125,10 @@ class MainWindow(QMainWindow):
                 self.editor.moveCursor(QTextCursor.MoveOperation.End)
         else: 
             print("User not choose any files")
-            self.load_today_session()
-              
+            if self.mode != 'NORMAL':
+                self.load_today_session()
+            else:
+                print("Current is NORMAL")
 
     def load_today_session(self):
         self.mode = 'NORMAL'
@@ -166,7 +168,6 @@ class MainWindow(QMainWindow):
             
             self.current_editor = self.temp_editor
             self.temp_editor.reflection_header(self.file_manager.current_file_date)
-            #self.temp_editor.appendPlainText(f"\n# -- Reflection: {self.file_manager.current_file_date} --")
             splitter.addWidget(self.editor)
             splitter.addWidget(self.temp_editor)
             
