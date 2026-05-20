@@ -75,16 +75,7 @@ class FileManager(GitManager):
         self.git_add(str(self.notes_vault),self.notes_vault)
         self.git_commit('-m',f'Seal Timeline: {self.seal_today}\nReflections: {self.seal_old}',self.notes_vault)
         print("Commit-Successful")
-    
-    '''
-    def check_dir_notes(self):
-        if not os.path.exists(self.directory_notes):
-            os.mkdir(self.directory_notes)
-            print("Directory create")
-        else:
-            print("Directory existed")
-    '''
-            
+                  
     def check_existed(self,tdy_session):
         if not os.path.exists(tdy_session):
             return 'NO'
