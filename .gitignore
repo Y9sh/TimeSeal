@@ -7,8 +7,8 @@ __pycache__/
 node_modules/
 notes/
 issues.md
+test/
 protoype/
-test_file.py
 .pytest_cache/
 extract/
 *.excalidraw
