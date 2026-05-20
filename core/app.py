@@ -7,8 +7,9 @@ from PySide6.QtWidgets import (
     QSplitter
 )
 
-#from core.editor import TextEditor
+#rom core.editor import TextEditor
 #from core.file_man import FileManager
+from debugging import print_line
 from editor import TextEditor
 from file_man import FileManager
        
@@ -22,8 +23,10 @@ class MainWindow(QMainWindow):
         self.file_manager = FileManager()
         self.editor = TextEditor()
         
-        self.file_manager.check_dir_notes()
+        #self.file_manager.check_dir_notes()
         self.default_state()
+        self.file_manager.create_vaults()
+        self.file_manager.check_git()
         self.load_today_session()
         self.setCentralWidget(self.editor)
         self.current_editor = self.editor
@@ -47,6 +50,11 @@ class MainWindow(QMainWindow):
         self.setStatusBar(QStatusBar(self))
         button_act_3.triggered.connect(self.load_today_session)
         
+        button_act_4 = QAction("Seal Time",self)
+        button_act_4.setStatusTip("Git commit notes")
+        self.setStatusBar(QStatusBar(self))
+        button_act_4.triggered.connect(self.seal_time)
+        
         menu = self.menuBar()
         
         file_menu = menu.addMenu("&File")
@@ -55,6 +63,7 @@ class MainWindow(QMainWindow):
         file_menu.addAction(button_act_1)
         file_menu.addAction(button_act_2)
         file_menu.addAction(button_act_3)
+        file_menu.addAction(button_act_4)
         
         print("1ST:",self.mode)
     
@@ -65,7 +74,7 @@ class MainWindow(QMainWindow):
         self.editor.read_only("NO")
     
     def check_session(self):
-        if self.file_manager.current_file_date in self.current_path:
+        if self.file_manager.current_file_date in str(self.current_path):
             if self.mode == 'NORMAL':
                 return 'TODAY_SESSION'
         else:
@@ -84,21 +93,23 @@ class MainWindow(QMainWindow):
     
     def save_file(self):
         editrs, act = self.actions_decisions(self.mode)
-        print("Editor:",editrs)
+        print_line(editrs)
         if editrs == 'MAIN':
             session = self.check_session()
-            print("SAVE SESSION:",session )
+            print_line(session)
             if session == 'TODAY_SESSION':
                 editrs = self.editor
                 text = editrs.toPlainText()
-                print("HERE SAVING HAPPENS:",editrs,act)
+                print_line(editrs)
+                print_line(act)
                 self.file_manager.where_to_save(text,act,self.current_path)
             else:
                 print("No save needed")
         else:
-            print("MOde in saveing ",self.mode)
+            print_line(self.mode)
             editrs = self.temp_editor
-            print("HERE REFLECTION SAVING HAPPENS:",editrs,act)
+            print_line(editrs)
+            print_line(act)
             content = editrs.toPlainText()
             body = content.replace(editrs.reflection_body(self.file_manager.current_file_date),"")
             if body:
@@ -112,7 +123,7 @@ class MainWindow(QMainWindow):
     def read_only_file(self):
     
         self.close_and_clear_temp_editor()
-        path,_= QFileDialog.getOpenFileName(self,"Open File",dir='./notes')
+        path,_= QFileDialog.getOpenFileName(self,"Open File",dir=str(self.file_manager.notes_vault))
         if path:
             today_session = self.file_manager.today_sessions
             
@@ -141,16 +152,22 @@ class MainWindow(QMainWindow):
     def load_today_session(self):
         self.mode = 'NORMAL'
         self.close_and_clear_temp_editor()
+        print_line(self.current_path)
         if self.current_path == "":
+            print_line(self.current_path)
             self.editor.check_text()
-            self.current_path = str(self.file_manager.today_sessions)
+            self.current_path = self.file_manager.today_sessions
         
         today_file = self.file_manager.check_existed(self.file_manager.today_sessions)
+        print_line(self.current_path,'what happens')
+        print_line(today_file)
         if today_file == 'NO':
+            print("NO")
             text = self.editor.toPlainText()
             self.file_manager.where_to_save(text,'a',self.current_path)
         else:
             self.current_path = str(self.file_manager.today_sessions)
+            print_line(self.current_path)
             print("read")
             self.editor.read_only("NO")
             content = self.file_manager.read_file_silently(self.file_manager.today_sessions)
@@ -162,15 +179,15 @@ class MainWindow(QMainWindow):
         path = str(self.current_path)
         today_file_date =self.file_manager.current_file_date + ".md"
         
-        print("Last Path",path)
-        print("Current:",today_file_date)
-        print("MODES:",self.mode)
+        print_line(path)
+        print_line(today_file_date)
+        print_line(self.mode)
         session = self.check_session()
         if session != 'TODAY_SESSION':
             self.mode = 'REFLECTIONS'
             self.current_path = path
-            print("REFLC:",self.mode)
-            print("Should be the latest path",self.current_path)
+            print_line(self.mode)
+            print_line(self.current_path)
             splitter = QSplitter(Qt.Vertical)
             self.temp_editor = TextEditor()
             
@@ -186,7 +203,7 @@ class MainWindow(QMainWindow):
         else:
             self.close_and_clear_temp_editor()
             self.mode = 'NORMAL'
-            print("Hehe not today",self.mode)
+            print_line(self.mode)
           
     
     def restream_file(self):
@@ -200,8 +217,10 @@ class MainWindow(QMainWindow):
             self.temp_editor.close()
         except AttributeError:
             print("No temp editor yet")
-            
-
+    
+    def seal_time(self):
+        self.file_manager.commit()
+        
 app = QApplication([])
 window = MainWindow()   
 window.show()

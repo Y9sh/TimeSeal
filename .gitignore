@@ -12,3 +12,4 @@ test_file.py
 .pytest_cache/
 extract/
 *.excalidraw
+core/debugging.py
