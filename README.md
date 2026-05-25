@@ -1,8 +1,10 @@
 # TimeSeal
 
-TimeSeal is a local-first timeline note application designed to preserve daily thoughts as immutable records.
+TimeSeal is a local-first temporal journaling application designed to preserve thought history as immutable checkpoints.
 
-Instead of rewriting the past, each day is sealed into history and extended only through reflections.
+Instead of organizing notes strictly by day, TimeSeal allows users to create intentional “seals” — snapshots of their thinking at meaningful moments in time.
+
+Each seal becomes a permanent, read-only record that can only be extended through reflections.
 
 ---
 
@@ -10,20 +12,64 @@ Instead of rewriting the past, each day is sealed into history and extended only
 
 > Time moves forward. Thoughts evolve. The past remains preserved.
 
-- Entries are part of a daily timeline and become sealed only when the user explicitly triggers a seal action.
-- Sealed entries cannot be rewritten or modified.
-- Reflections are appended as new layers of thought, preserving the original entry.
-- Every note becomes part of a continuous personal timeline.
+- Thought history is not bound to strict daily cycles
+- Users create intentional checkpoints (“seals”) to preserve a state of mind
+- Sealed entries are immutable and cannot be modified
+- Reflections extend historical entries without altering original content
+- The system prioritizes continuity of thought over rewriting history
+
+---
+
+## Core Concept
+
+TimeSeal operates on a simple model:
+
+WORKING STATE → SEAL (Checkpoint) → SEALED HISTORY → REFLECTION LAYER
+
+- **Working State**: Active, editable notes
+- **Seal (Checkpoint)**: User-triggered snapshot of current state
+- **Sealed History**: Immutable record stored via Git snapshot
+- **Reflection Layer**: Append-only continuation of past thoughts
 
 ---
 
 ## Features
 
-- Local-first daily note system
-- Timestamped journaling for all entries
-- Manual “Seal Day” action to freeze a session
-- Read-only access for sealed entries
-- Reflection system for extending past entries without modification
-- Quick return to the current day session
+- Local-first journaling system
+- Manual checkpoint (“Seal”) creation
+- Timestamped entries for traceability
+- Read-only access to sealed history
+- Reflection system for extending past checkpoints
+- Quick return to current working state
 - Plain text / Markdown-based storage
 - Git-based snapshot history for sealed states
+
+---
+
+## Tech Stack
+
+- Python
+- PySide6 (Qt-based UI framework)
+- Local filesystem storage (Markdown / text files)
+- Git for snapshot-based history preservation
+
+---
+
+## Design Goals
+
+TimeSeal is an experiment in structured memory and temporal awareness in software systems.
+
+It explores how personal software can:
+
+- Preserve cognitive history without overwriting it
+- Treat meaningful moments as explicit checkpoints
+- Separate “thinking in progress” from “thought already preserved”
+- Use Git as a model for human reflection and memory
+
+---
+
+## Status
+
+Early-stage experimental tool used for personal journaling and thought tracking.
+
+---

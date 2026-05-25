@@ -14,7 +14,6 @@ class FileManager(GitManager):
     def __init__(self):
         super().__init__() 
         self.APP_NAME = 'TimeSeal'
-        #self.notes_vault = ''
         self.today_sessions = Path(f"{QDate.currentDate().toString("yyyy-MM-dd")}.md")
         self.directory_notes= os.path.dirname(self.today_sessions)
         self.current_file_date = QDate.currentDate().toString("yyyy-MM-dd")

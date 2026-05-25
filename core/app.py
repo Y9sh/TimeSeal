@@ -1,4 +1,4 @@
-from PySide6.QtGui import QAction,QTextCursor,Qt
+from PySide6.QtGui import QAction,QTextCursor,Qt,QKeySequence
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -33,6 +33,7 @@ class MainWindow(QMainWindow):
         
         button_action = QAction("Open",self)
         button_action.setStatusTip("Open File")
+        self.setStatusBar(QStatusBar(self))
         button_action.triggered.connect(self.read_only_file)
         
         button_act_1 = QAction("Save",self)
@@ -59,11 +60,16 @@ class MainWindow(QMainWindow):
         
         file_menu = menu.addMenu("&File")
         file_menu.addAction(button_action)
+        button_action.setShortcut('Ctrl+O')
         #file_menu.addSeparator()
         file_menu.addAction(button_act_1)
+        button_act_1.setShortcut('Ctrl+S')
         file_menu.addAction(button_act_2)
+        button_act_2.setShortcut('Ctrl+R')
         file_menu.addAction(button_act_3)
+        button_act_3.setShortcut('Ctrl+T')
         file_menu.addAction(button_act_4)
+        button_act_4.setShortcut('Ctrl+G')
         
         print("1ST:",self.mode)
     
