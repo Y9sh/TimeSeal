@@ -1,10 +1,10 @@
+from core.cli import CLI
 import subprocess
 
-class GitManager():
+class GitManager(CLI):
     
     def __init__(self):
-        self.cmd = subprocess.run
-        
+        super().__init__()
         
     def git_init(self,arg,working_dir):
         try:

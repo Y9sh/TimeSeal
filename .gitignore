@@ -13,3 +13,7 @@ protoype/
 extract/
 *.excalidraw
 core/debugging.py
+features_test.py
+LLM/logs/
+LLM/prompts/example*
+LLM/cache_model*

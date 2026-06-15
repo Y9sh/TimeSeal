@@ -2,11 +2,11 @@ from PySide6.QtCore import QDate
 from pathlib import Path
 import datefinder
 import os
+import json
 import tempfile
 from platformdirs import user_data_dir
-from debugging import print_line
-#from core.git_man import GitManager
-from git_man import GitManager 
+from core.debugging import print_line
+from core.git_man import GitManager 
 
 
 class FileManager(GitManager):
@@ -30,11 +30,24 @@ class FileManager(GitManager):
             app_dir.mkdir(parents=True, exist_ok=True)
             notes_dir = app_dir / "notes_vault"
             notes_dir.mkdir(exist_ok= True)
+            self.metadata_dir = app_dir / "metadata"
+            self.metadata_dir.mkdir(exist_ok=True)
+            self.metadata_today = Path(f"{self.metadata_dir}/{self.current_file_date}.json")
             self.notes_vault= notes_dir
             self.today_sessions = Path(f"{notes_dir}/{self.current_file_date}.md")
             print_line(self.today_sessions)
         except:
             print("Error")
+        
+    def check_metadata(self,path):
+        date = self.get_date(path)
+        print_line(Path(f"{self.metadata_dir}/{date}.json"))
+        if os.path.exists(Path(f"{self.metadata_dir}/{date}.json")):
+            print("Exists")
+            return True
+        else:
+            print("Generated metadata")
+            return False       
             
     def check_git(self):
         if not os.path.exists(f"{self.notes_vault}/.git"):
@@ -81,7 +94,6 @@ class FileManager(GitManager):
         else:
             return 'YES'
         
-        
     def save_decisions(self,current_pth,tdy_session):
         print_line(current_pth)
         if str(current_pth) in str(tdy_session):
@@ -97,7 +109,6 @@ class FileManager(GitManager):
         else:
             self.safety_old_write(path,text)
         
-
     
     def safety_old_write(self,file_path,text):
         dir_name = os.path.dirname(file_path)
@@ -121,8 +132,19 @@ class FileManager(GitManager):
     def write_file(self,file_path,text,action):
         with open(file_path,action) as e_file:
             e_file.write(text)
-    
+            
+    def write_prompt(self,path,text):
+        with open(path,'w') as wr:
+            wr.write(text)
+        
     def read_file_silently(self,path):
         with open(path, 'r') as r_file:
             return r_file.read()
         
+    def write_json(self,path,contents,action):
+        with open(path,action, encoding='utf-8') as w_json:
+            json.dump(contents,w_json,indent=4,sort_keys=True)
+            
+    def read_json(self,path,action):
+        with open(path,action,encoding='utf-8') as r_json:
+            return json.load(r_json)

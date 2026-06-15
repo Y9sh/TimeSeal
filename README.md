@@ -35,23 +35,43 @@ WORKING STATE → SEAL (Checkpoint) → SEALED HISTORY → REFLECTION LAYER
 
 ## Features
 
+### Journaling & Reflection
+
 - Local-first journaling system
-- Manual checkpoint (“Seal”) creation
+- Manual checkpoint ("Seal") creation
 - Timestamped entries for traceability
 - Read-only access to sealed history
 - Reflection system for extending past checkpoints
-- Quick return to current working state
+- Quick return to the current working state
 - Plain text / Markdown-based storage
 - Git-based snapshot history for sealed states
+
+### AI Integration
+
+TimeSeal can generate structured metadata for journal entries using local language models through LM Studio.
+
+Current capabilities include:
+
+- Local AI-powered metadata generation
+- Entry summarization
+- Topic tag extraction
+- Local-only processing (no cloud dependency)
+- LM Studio server integration
+- Dynamic model selection
+- In-app model loading and switching
+
+The AI system is entirely optional and operates locally on the user's machine. Its purpose is to support reflection and note organization while preserving the user's original writing.
 
 ---
 
 ## Tech Stack
 
-- Python
-- PySide6 (Qt-based UI framework)
-- Local filesystem storage (Markdown / text files)
-- Git for snapshot-based history preservation
+* Python
+* PySide6 (Qt-based UI framework)
+* Local filesystem storage (Markdown / text files)
+* Git for snapshot-based history preservation
+* LM Studio (local LLM runtime)
+* Local language models (user selectable)
 
 ---
 
@@ -70,6 +90,15 @@ It explores how personal software can:
 
 ## Status
 
-Early-stage experimental tool used for personal journaling and thought tracking.
+Active personal project and experimental journaling tool.
+
+Current focus areas:
+
+* Temporal journaling workflow
+* Reflection-based note preservation
+* Local AI-assisted metadata generation
+* LM Studio integration
+
+The project is under active development and the AI subsystem is expected to evolve as new features are added.
 
 ---
