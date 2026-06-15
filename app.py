@@ -14,10 +14,10 @@ from PySide6.QtWidgets import (
 from core.editor import TextEditor
 from core.file_man import FileManager
 from core.debugging import print_line
-from AiEngine.model import LocalModel
-from AiEngine.metadata_engine import MetaData
-from AiEngine.validation_manager import ValidManager
-from AiEngine.LMstd_manager import LManager
+from Ai_Engine.model import LocalModel
+from Ai_Engine.metadata_engine import MetaData
+from Ai_Engine.validation_manager import ValidManager
+from Ai_Engine.LMstd_manager import LManager
 import json
 from pathlib import Path
 import threading
@@ -200,7 +200,7 @@ class MainWindow(QMainWindow):
         
     def download_model_list_UI(self):
         try:
-            cache_model = self.file_manager.read_json("AiEngine/cache_model.json",'r')
+            cache_model = self.file_manager.read_json("Ai_Engine/cache_model.json",'r')
             if cache_model:
                 for m in cache_model:
                     if m != None:
@@ -216,7 +216,7 @@ class MainWindow(QMainWindow):
             ask_server = self.model.list_model()
             parse_model = self.LM.model_parser(ask_server,'models','key')
             self.LM.append_list_model(parse_model)
-            self.file_manager.write_json("AiEngine/cache.json",self.LM.list_model,'w')
+            self.file_manager.write_json("Ai_Engine/cache_model.json",self.LM.list_model,'w')
             self.download_model_list_UI()
         except Exception as e:
             print(e)

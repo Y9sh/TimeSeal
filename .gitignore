@@ -12,8 +12,7 @@ protoype/
 .pytest_cache/
 extract/
 *.excalidraw
-core/debugging.py
 features_test.py
-LLM/logs/
-LLM/prompts/example*
-LLM/cache_model*
+Ai_Engine/logs/
+Ai_Engine/prompts/example*
+Ai_Engine/cache_model*

@@ -5,7 +5,7 @@ import requests
 import json
 import os
 from dotenv import load_dotenv
-from AiEngine.prompt_manager import PromptManager
+from Ai_Engine.prompt_manager import PromptManager
 from core.file_man import FileManager
 load_dotenv()
 
@@ -13,8 +13,8 @@ class LocalModel(PromptManager):
 
     def __init__(self):
         self.api_key = os.getenv("LM_KEY")
-        self.templates = 'AiEngine/prompts/prompt.md'
-        self.formats = 'AiEngine/prompts/format.md'
+        self.templates = 'Ai_Engine/prompts/prompt.md'
+        self.formats = 'Ai_Engine/prompts/format.md'
         self.load = ''
         self.unload = ''
         
