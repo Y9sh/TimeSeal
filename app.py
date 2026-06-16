@@ -289,7 +289,7 @@ class MainWindow(QMainWindow):
         
     def generate_metadata(self,path):
         date = self.file_manager.get_date(path).strftime("%Y-%m-%d")
-        fragments = self.model.get_responses(path,model='')
+        fragments = self.model.get_responses(path,model=self.model.unload)
         try:
             print_line(repr(fragments))
             cln =self.metadata.clean_response(fragments)

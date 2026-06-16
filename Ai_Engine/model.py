@@ -61,17 +61,18 @@ class LocalModel(PromptManager):
     
     def get_responses(self,content,model):
         file_man = FileManager()
+        print("Model:",model)
         try:
             response = requests.post("http://localhost:1234/api/v1/chat",headers={
             "Authorization":f"Bearer {self.api_key}",
             "Content-Type":"application/json"
             },json ={
                 # later in UI, will trigger which models will be used
-                "model":model,
+                "model":model.strip(),
                 "input":self.get_prompt(self.templates,content,self.formats),
                 "store":False
                 })
-            file_man.write_json('LLM/logs/log.json',response.json(),'a')
+            file_man.write_json('Ai_Engine/logs/log.json',response.json(),'a')
             return response.json()['output'][0]['content']
             #return(json.dumps(response.json()))
         except Exception as e:

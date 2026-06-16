@@ -32,9 +32,11 @@ Bad tag examples:
 Output Rules:
 * Return ONLY valid JSON.
 * Do NOT add explanations.
+* Do NOT return reasoning.
 * Do NOT add markdown.
 * Do NOT add comments.
 * Do NOT wrap the JSON in code blocks.
+* ONLY return the JSON format without any other sentences in the early or end.
 
 Example Output Format:
 
